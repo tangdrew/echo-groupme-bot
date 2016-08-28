@@ -1,0 +1,25 @@
+{
+  "intents": [
+    {
+        "intent": "StartMessageIntent"
+    },
+    {
+        "intent": "SendMessageIntent",
+        "slots": [
+            {
+                "name": "message",
+                "type": "AMAZON.LITERAL"
+            }
+        ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+StartMessageIntent send message
+StartMessageIntent start message
+StartMessageIntent message
+
+SendMessageIntent {Dinner time|message}
+SendMessageIntent {Time for dinner|message}
+SendMessageIntent {Who wants to cook|message}
+SendMessageIntent {Who is here|message}
+SendMessageIntent {Anyone home|message}
+
+AMAZON.StopIntent no
+AMAZON.StopIntent nope
+AMAZON.StopIntent no thanks
+AMAZON.StopIntent no thank you
