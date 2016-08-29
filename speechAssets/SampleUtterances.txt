@@ -8,6 +8,9 @@ SendMessageIntent {Who wants to cook|message}
 SendMessageIntent {Who is here|message}
 SendMessageIntent {Anyone home|message}
 
+ReadMessagesIntent read messages
+ReadMessagesIntent read last {limit} messages
+
 AMAZON.StopIntent no
 AMAZON.StopIntent nope
 AMAZON.StopIntent no thanks

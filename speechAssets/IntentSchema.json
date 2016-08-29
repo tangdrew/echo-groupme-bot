@@ -13,6 +13,15 @@
         ]
     },
     {
+        "intent": "ReadMessagesIntent",
+        "slots": [
+            {
+                "name": "limit",
+                "type": "AMAZON.NUMBER"
+            }
+        ]
+    },
+    {
       "intent": "AMAZON.HelpIntent"
     },
     {

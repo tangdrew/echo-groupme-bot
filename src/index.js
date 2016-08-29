@@ -9,7 +9,7 @@
 /**
  * App ID for the skill
  */
-var APP_ID = 'YOUR ALEXA SKILL APP ID';
+var APP_ID = 'YOURALEXAAPPID';
 
 var https = require('https');
 
@@ -56,6 +56,10 @@ GroupmeSkill.prototype.intentHandlers = {
 
     "SendMessageIntent": function(intent, session, response) {
         handleSendMessageRequest(intent, session, response);
+    },
+
+    "ReadMessagesIntent": function(intent, session, response) {
+        handleReadMessagesRequest(intent, session, response);
     },
 
     "AMAZON.HelpIntent": function (intent, session, response) {
@@ -145,8 +149,56 @@ function handleSendMessageRequest(intent, session, response) {
         console.log('problem with request: ' + e.message);
     });
     // write data to request body
-    req.write('{"bot_id": "YOUR GROUPME BOT ID", "text": "' + message.value + '"}');
+    req.write('{"bot_id": "YOURGROUPMEBOTID", "text": "' + message.value + '"}');
     req.end();
+}
+
+function handleReadMessagesRequest(intent, session, response) {
+    var limit = 0;
+    // set default limit to 5
+    if(!("value" in intent.slots.limit)) {
+        limit = 5;
+    }
+    else{
+        limit = intent.slots.limit.value;
+    }
+    // limit cannot be > 100
+    if(limit > 20){
+        response.tell({speech: "<speak> Maximum number of messages is twenty </speak>", type: AlexaSkill.speechOutputType.SSML});
+    }
+    else {
+        var get_options = {
+            host: 'api.groupme.com',
+            path: '/v3/groups/17289795/messages?token=YOURGROUPMEACCESSTOKEN' + limit.toString(),
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        var req = https.request(get_options, function(res) {
+            console.log('Status: ' + res.statusCode);
+            console.log('Headers: ' + JSON.stringify(res.headers));
+            res.setEncoding('utf8');
+            res.on('data', function (body) {
+                console.log('Body: ' + body);
+                var messages = JSON.parse(body).response.messages;
+                var speechText = '';
+                for(var i = messages.length - 1; i >= 0; i--) {
+                    speechText = speechText + "<p>" + messages[i].name + ' said ' + messages[i].text + "</p> ";
+                }
+                var speechOutput = {
+                    speech: "<speak>" + '<p>Reading Messages.</p>' + speechText + "</speak>",
+                    type: AlexaSkill.speechOutputType.SSML
+                };
+                response.tell(speechOutput);
+            });
+        });
+        req.on('error', function(e) {
+            console.log('problem with request: ' + e.message);
+        });
+        req.end();
+    }
 }
 
 // Create the handler that responds to the Alexa Request.
@@ -155,4 +207,3 @@ exports.handler = function (event, context) {
     var skill = new GroupmeSkill();
     skill.execute(event, context);
 };
-
