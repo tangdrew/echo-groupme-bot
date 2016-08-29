@@ -8,9 +8,11 @@ A simple [AWS Lambda](http://aws.amazon.com/lambda) function that sends messages
 
 ## Examples
 Example user interactions:
-
+### Sending Messages
     User:  "Alexa, ask Groupme to send message."
     Alexa: "What is the message you want to send?"
     User:  "Dinner time"
     Alexa: "Sending Message"
-
+### Reading Messages
+    User:  "Alexa, ask Groupme to read the last two messages."
+    Alexa: "Reading messages. Andrew said Dinner time. Kimball said I'm hungry."
